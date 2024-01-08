@@ -57,9 +57,7 @@ func Uni(router *gin.Engine){
 	router.POST("/unidade",controller.GetUserss)
 }
 
-func Calc(router *gin.Engine){
-	router.GET("/opa", controller.Calculo)
-}
+
 
 
 

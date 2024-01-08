@@ -21,7 +21,7 @@ func main(){
     config.DB.AutoMigrate(&models.Iadvh{})
 	routes.Demos(router)
 	routes.Uni(router)	
-	routes.Calc(router)
+
 	//routes.Somaauxilioalimentacao(router)
 	router.Run("localhost:8080")
 

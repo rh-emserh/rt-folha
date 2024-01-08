@@ -112,6 +112,7 @@ Rh int `json:"rh"`
 	Inss float64 `json:"inss"`
 	Inss_decimo_terceiro_aliquota_normal float64 `json:"inss"`//
 	//inss 13 com aliquota normal
+	//descanso_semanal_remunerado float64 `json:"descanso_semanal_remunerado"`
 	Inss_decimo_terceiro_salario float64 `json:"inss_decimo_terceiro_salario"`//
 	Inss_aliquota_normal float64 `json:"inss_aliquota_normal"`//
 	Inss_ferias_mes_anterior_outro_emprego float64  `json:"inss_ferias_mes_anterior_outro_emprego"`//
