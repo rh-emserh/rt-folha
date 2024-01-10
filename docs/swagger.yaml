@@ -1,0 +1,84 @@
+basePath: /
+definitions:
+  models.PDT:
+    properties:
+      adicional_noturno_folha:
+        type: number
+      auxilio_alimentacao:
+        type: number
+      dsr_folha:
+        description: Adicional_noturnoo int `json:"adicional_noturno_folha"`
+        type: number
+      encargos_folha:
+        type: number
+      gratificacao_folha:
+        type: number
+      hora_extras:
+        type: number
+      insalubridade_folha:
+        type: number
+      periculosidade_folha:
+        type: number
+      rh:
+        type: integer
+      salario_folha:
+        type: number
+      setor:
+        type: string
+      total_anual_folha:
+        type: number
+      total_mensal_folha:
+        description: vale transporte
+        type: number
+      total_salario_folha:
+        type: number
+      unidade:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API for crud operations on users
+  title: API FOLHA DE PAGAMENTO
+  version: "1.0"
+paths:
+  /unidade:
+    post:
+      consumes:
+      - application/json
+      description: Returns the unit
+      parameters:
+      - description: Unidade
+        in: body
+        name: unidade
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.PDT'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Returns the specific unit with information for the pdt
+swagger: "2.0"

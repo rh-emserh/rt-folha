@@ -4,6 +4,10 @@ import (
 	//"net/http"
 	"github.com/gin-gonic/gin"
 	"example.com/gogin/controller"
+	_ "example.com/gogin/docs"
+    //"example.com/gogin/docs"
+     ginSwagger "github.com/swaggo/gin-swagger"
+	 swaggerFiles "github.com/swaggo/files"
 )
 /*
 func Rotasadicionalnoturno(router *gin.Engine) {
@@ -48,17 +52,19 @@ func Periculosidade(router *gin.Engine){
 	router.GET("/salariobase", controller.Salariobasee)
 } */
 
-
+/*
 func Demos(router *gin.Engine){
 	router.GET("/tudo",controller.GetUserss)
 }
-
+*/
 func Uni(router *gin.Engine){
 	router.POST("/unidade",controller.GetUserss)
 }
 
 
-
+func SwaggerUni(router *gin.Engine) {
+    router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+}
 
 
 //func Getiadvh(router *gin.Engine){

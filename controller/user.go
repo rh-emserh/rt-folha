@@ -567,6 +567,17 @@ func worker(wg *sync.WaitGroup, done chan bool, calculos ...func()) {
 	done <- true
 }
 
+
+// @Summary Returns the specific unit with information for the pdt
+// @Description Returns the unit
+// @Accept  json
+// @Produce  json
+// @Param unidade body string true "Unidade"
+// @Success 200 {array} models.PDT
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /unidade [post]
 func GetUserss(context *gin.Context) {
     var pdt []models.PDT
 	var pdts []models.PDT
@@ -598,7 +609,7 @@ func GetUserss(context *gin.Context) {
 
 
 
-Calculo()
+//Calculo()
    var requestData struct {
      Unidade string `json:"unidade" binding:"required"`
 }
