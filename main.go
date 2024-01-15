@@ -34,6 +34,7 @@ func main(){
 	//router.Run("localhost:8080")
 
 	routes.SwaggerUni(router)
+	routes.TotalMensalFolhaPagamento(router)
 
 	// Adicionando o bloco para configurar o host e a porta
 	host := os.Getenv("HOST")

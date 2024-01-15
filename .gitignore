@@ -8,3 +8,5 @@
 *.out
 cockroach-data
 go.work
+.Db.go
+Populardb

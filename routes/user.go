@@ -66,6 +66,10 @@ func SwaggerUni(router *gin.Engine) {
     router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
+func TotalMensalFolhaPagamento(router *gin.Engine){
+	router.GET("/Totalmensalfolha",controller.TotCalcMensalFolha)
+}
+
 
 //func Getiadvh(router *gin.Engine){
 //	router.GET("/iadvh",controller.Getiadvh)
