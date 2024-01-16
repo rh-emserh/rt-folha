@@ -3,7 +3,7 @@ package config
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"example.com/gogin/models" 
+	//"example.com/gogin/models" 
 )
 
 var DB *gorm.DB
@@ -16,8 +16,8 @@ func Connect() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&models.PDT{})
-	db.AutoMigrate(&models.Iadvh{})
+	//db.AutoMigrate(&models.PDT{})
+	//db.AutoMigrate(&models.Iadvh{})
 
 	DB = db
 }

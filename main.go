@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"example.com/gogin/routes"
 	"example.com/gogin/config"
-	"example.com/gogin/models"
+	//"example.com/gogin/models"
 	_ "example.com/gogin/docs"
 	"log"
 	"os"
@@ -24,19 +24,15 @@ func main(){
 
 	router:= gin.New()
 	config.Connect()
-	config.DB.AutoMigrate(&models.PDT{})
-    config.DB.AutoMigrate(&models.Iadvh{})
 	router.Use(cors.Default())
-	//routes.Demos(router)
 	routes.Uni(router)	
 	
-	//routes.Somaauxilioalimentacao(router)
-	//router.Run("localhost:8080")
+
 
 	routes.SwaggerUni(router)
 	routes.TotalMensalFolhaPagamento(router)
 
-	// Adicionando o bloco para configurar o host e a porta
+
 	host := os.Getenv("HOST")
 	if host == "" {
 		host = "0.0.0.0"

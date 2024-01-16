@@ -61,6 +61,6 @@ var totalMensalFolha float64= 0.0
 		"TotalMensalFolha" : totalMensalFolha,
 	})
 
-
-
+	//somaPortotalsalariomensalfolhaTotalUnidadeFuncaoPdt[pdt.Total_mensal_folha][pdt.Unidade][pdt.Funcao]=0.0
+    totalMensalFolha=0.0
 }
