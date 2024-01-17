@@ -57,8 +57,8 @@ func CalcPorencargos() {
         pdts[i].Encargosfo =somaPorencargosUnidadeFuncaoPdt[pdt.Aviso_previo_indenizado][pdt.Unidade][pdt.Funcao]
 
 
-    if (i+1)%3000 == 0 {
-		slice := pdts[i-2999 : i+1]
+    if (i+1)%330 == 0 {
+		slice := pdts[i-229 : i+1]
 		config.DB.Save(&slice)
 		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 	

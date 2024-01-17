@@ -27,6 +27,10 @@ func main(){
 	router.Use(cors.Default())
 	routes.Uni(router)	
 	
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+	router.Use(cors.New(config))
 
 
 	routes.SwaggerUni(router)

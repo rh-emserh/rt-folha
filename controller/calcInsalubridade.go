@@ -36,7 +36,7 @@ func CalcInsalubridade() {
 				if _, ok := somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade]; !ok {
 					somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade] = make(map[string]float64)
 				}
-				somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade][pdt.Funcao] += pdt.Insalubridade_40 + pdt.Insalubridade_sem_base_40+pdt.Insalubridade_sem_minimo_20+ pdt.Insalubridade_sem_minimo_20+pdt.Insalubridade_retroativa+pdt.Media_insalubridade_prorrogacao_salario_maternidade
+				somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade][pdt.Funcao] += pdt.Insalubridade_40 + pdt.Insalubridade_sem_base_40+pdt.Insalubridade_sem_minimo_20+ pdt.Insalubridade_sem_minimo_40+pdt.Insalubridade_retroativa+pdt.Media_insalubridade_prorrogacao_salario_maternidade
 	//	somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade][pdt.Funcao]
             }
 		
