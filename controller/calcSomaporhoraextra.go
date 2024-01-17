@@ -55,7 +55,21 @@ func CalcHoraExtra() {
     for i,pdt:= range pdts{
      
      pdts[i].Hora_extrafo =  somaPorhoraextraUnidadeFuncaoPdt[pdt.Hora_extra_50][pdt.Unidade][pdt.Funcao]
-    }
+    	if (i+1)%3000 == 0 {
+		slice := pdts[i-2999 : i+1]
+		config.DB.Save(&slice)
+		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
+	
+}
+	}
 
-	config.DB.Save(&pdts)
+// Certifique-se de realizar uma última atualização em lote se necessário
+if len(pdts)%3000 != 0 {
+	slice := pdts[len(pdts)-(len(pdts)%3000):]
+	config.DB.Save(&slice)
+	//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
+}
+	
+
+	//config.DB.Save(&pdts)
 }

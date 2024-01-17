@@ -49,8 +49,21 @@ for _, pdt := range pdts {
     for i, pdt := range pdts {
         soma := somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade][pdt.Funcao]
         pdts[i].Auxilio_alimentacaofo = soma
+	if (i+1)%3000 == 0 {
+		slice := pdts[i-2999 : i+1]
+		config.DB.Save(&slice)
+		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 	}
+}
+
+// Certifique-se de realizar uma última atualização em lote se necessário
+if len(pdts)%3000 != 0 {
+	slice := pdts[len(pdts)-(len(pdts)%3000):]
+	config.DB.Save(&slice)
+	//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
+}
+	
 
 
-	config.DB.Save(&pdts)
+	//config.DB.Save(&pdts)
 }

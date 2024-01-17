@@ -58,7 +58,17 @@ func CalcDsr() {
     for i,pdt:= range pdts {
         pdts[i].Dsrfo = 	somaPorDsrUnidadeFuncaoPdt[pdt.Aviso_previo_indenizado][pdt.Unidade][pdt.Funcao]
 
-    }
+    
+	if (i+1)%3000 == 0 {
+		slice := pdts[i-2999 : i+1]
+		config.DB.Save(&slice)
+	}
+}
 
-	config.DB.Save(&pdts)
+
+if len(pdts)%3000 != 0 {
+	slice := pdts[len(pdts)-(len(pdts)%3000):]
+	config.DB.Save(&slice)
+
+}
 }

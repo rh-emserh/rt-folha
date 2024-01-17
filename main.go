@@ -31,6 +31,8 @@ func main(){
 
 	routes.SwaggerUni(router)
 	routes.TotalMensalFolhaPagamento(router)
+	routes.Totalsalariobase(router)
+	routes.AdicionalNoturno(router)
 
 
 	host := os.Getenv("HOST")

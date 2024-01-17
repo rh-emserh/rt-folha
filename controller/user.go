@@ -15,6 +15,9 @@ import (
 )
 
 
+
+
+
 func Calculo() {
     //var pdt []models.PDT
 	var pdts []models.PDT
@@ -124,17 +127,6 @@ func worker(wg *sync.WaitGroup, done chan bool, calculos ...func()) {
 	done <- true
 }
 
-
-// @Summary Returns the specific unit with information for the pdt
-// @Description Returns the unit
-// @Accept  json
-// @Produce  json
-// @Param unidade body string true "Unidade"
-// @Success 200 {array} models.PDT
-// @Failure 400 {object} map[string]string
-// @Failure 404 {object} map[string]string
-// @Failure 500 {object} map[string]string
-// @Router /unidade [post]
 func GetUserss(context *gin.Context) {
     var pdt []models.PDT
 	var pdts []models.PDT
@@ -147,13 +139,15 @@ func GetUserss(context *gin.Context) {
 
    done := make(chan bool)
    var wg sync.WaitGroup
-   numGoroutines := 16
+   numGoroutines := 32
    wg.Add(numGoroutines)
 
    // Inicia as goroutines
    for i := 0; i < numGoroutines; i++ {
-       go worker(&wg, done,CalcAdicionalnoturno,CalcAuxilioialimentacao,CalcGratificacao,CalcHoraExtra,CalcSalariobase,CalcPordeducao,CalcInsalubridade,CalcPorencargos,CalcDsr)
-   }
+       //go worker(&wg, done,CalcAdicionalnoturno,CalcAuxilioialimentacao,CalcDsr,CalcPordeducao,CalcGratificacao,CalcInsalubridade,CalcPericulosidade,CalcSalariobase,CalcHoraExtra)
+	   go worker(&wg, done)
+
+	}
 
    // Aguarda a conclusão de todas as goroutines
    go func() {
@@ -165,7 +159,9 @@ func GetUserss(context *gin.Context) {
    <-done
 
 
-CalcTotalSalarioFolha()
+
+
+CalcPorencargos()
 Calculo()
    var requestData struct {
      Unidade string `json:"unidade" binding:"required"`

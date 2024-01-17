@@ -70,6 +70,13 @@ func TotalMensalFolhaPagamento(router *gin.Engine){
 	router.GET("/Totalmensalfolha",controller.TotCalcMensalFolha)
 }
 
+func Totalsalariobase(router *gin.Engine){
+	router.POST("/Totalsalario",controller.CalcSalariobase)
+}
+func AdicionalNoturno(router *gin.Engine){
+	router.POST("/adicional",controller.CalcAdicionalnoturno )
+}
+
 
 //func Getiadvh(router *gin.Engine){
 //	router.GET("/iadvh",controller.Getiadvh)
