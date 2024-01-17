@@ -36,19 +36,61 @@ func CalcSalariobase(context *gin.Context) {
 	var iadvhs []models.Iadvh
 	config.DB.Find(&iadvhs)
 
+	somaPordeducaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 
-
+somaPoradicionalnoturnoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 	somaPorRH := make(map[string]map[string]int)
-
+	somaPorauxilioalimentacaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 	for _, pdt := range pdts {
 		if somaPorRH[pdt.Unidade] == nil {
 			somaPorRH[pdt.Unidade] = make(map[string]int)
 		 }
 		somaPorRH[pdt.Unidade][pdt.Funcao] +=1
+		if _, ok := somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Periculosidade]; !ok {
+	
+			somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20] = make(map[string]map[string]float64)
+		}
+		if _, ok := somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Periculosidade][pdt.Unidade]; !ok {
+			somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20][pdt.Unidade] = make(map[string]float64)
+		}
+		//somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20][pdt.Unidade][pdt.Funcao]=0.0
+		somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20][pdt.Unidade][pdt.Funcao] += pdt.Adicional_noturno_20+pdt.Adicional_noturno_30+pdt.Adicional_noturno_20_valor+pdt.Media_adicional_noturno_salario_maternidade+pdt.Adicional_noturno_30_valor+pdt.Adicional_noturno_30_mes_anterior+pdt.Diferenca_adicional_noturno+pdt.Adicional_noturno_20_retroativo
+		if somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo] == nil {
+			somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo] = make(map[string]map[string]float64)
+		}
+		if somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade] == nil {
+			somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade] = make(map[string]float64)
+		}
+	
+		//somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade][pdt.Funcao] = 0.0
+	
+		somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade][pdt.Funcao] += pdt.Auxilio_alimentacao + pdt.Auxilio_alimentacao_retroativo
+		if _, ok := somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade]; !ok {
+			somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade] = make(map[string]map[string]float64)
+		}
+		if _, ok := somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade]; !ok {
+			somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade] = make(map[string]float64)
+		}
+		somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade][pdt.Funcao] += pdt.Gratificacao_produtor_salario_maternidade+pdt.Gratificacao_dedicacao_exclusiva_salario_maternidade+pdt.Gratificacao_interiorizacao_salario_maternidade+pdt.Salario_maternidade_jovem_aprendiz+pdt.Salario_maternidade+pdt.Media_horas_extras_salario_maternidade+pdt.Media_insalubridade_salario_maternidade+pdt.Gratificacao_sobre_maternidade_supervisor_enfermagem+pdt.Adicional_graduacao_15_tecnico_enfermagem_licenca_maternidade+pdt.Media_gratificacao_sobre_maternidade+pdt.Salario_familia+pdt.Salario_familia_indenizado  //aqui tem 12
+	
+	
 		//somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade][pdt.Funcao]
 	}
+
+
 	
+for _, iadvh := range iadvhs {
+	if _, ok := somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade]; !ok {
+		somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade] = make(map[string]map[string]float64)
+	}
+	if _, ok := somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade][iadvh.Unidade]; !ok {
+		somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade][iadvh.Unidade] = make(map[string]float64)
+	}
+	somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade][iadvh.Unidade][iadvh.Funcao] += iadvh.Salario_maternidade+iadvh.Salario_familia+iadvh.Media_salario_maternidade
+  //  soma1=somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade][iadvh.Unidade][iadvh.Funcao]
+}
 	
+/*	
 	for i,pdt:= range pdts {
 		
 		pdts[i].Rh =somaPorRH[pdt.Unidade][pdt.Funcao]
@@ -59,8 +101,8 @@ func CalcSalariobase(context *gin.Context) {
 		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 	}
 	}
-
-	somaPoradicionalnoturnoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
+*/
+	/*
 
 	for _, pdt := range pdts {
 	
@@ -74,9 +116,9 @@ func CalcSalariobase(context *gin.Context) {
 		//somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20][pdt.Unidade][pdt.Funcao]=0.0
 		somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Adicional_noturno_20][pdt.Unidade][pdt.Funcao] += pdt.Adicional_noturno_20+pdt.Adicional_noturno_30+pdt.Adicional_noturno_20_valor+pdt.Media_adicional_noturno_salario_maternidade+pdt.Adicional_noturno_30_valor+pdt.Adicional_noturno_30_mes_anterior+pdt.Diferenca_adicional_noturno+pdt.Adicional_noturno_20_retroativo
 	}
-	
+	*/
 
-	
+	/*
 	for i, pdt := range pdts {
 		pdts[i].Adicional_noturnofo = somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Periculosidade][pdt.Unidade][pdt.Funcao]
 		
@@ -86,7 +128,7 @@ func CalcSalariobase(context *gin.Context) {
 		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 	}
 	}
-
+*/
 
 /*
 	for _, pdt := range pdts {
@@ -122,7 +164,7 @@ func CalcSalariobase(context *gin.Context) {
 			config.DB.Save(&slice)
 		}
 	}
-*/
+*//*
 somaPorauxilioalimentacaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 
 for _, pdt := range pdts {
@@ -139,12 +181,11 @@ for _, pdt := range pdts {
 }
 
 	
+*/
 
-
-
+/*
 	for i, pdt := range pdts {
-		soma := somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade][pdt.Funcao]
-		pdts[i].Auxilio_alimentacaofo = soma
+		
 	if (i+1)%330 == 0 {
 		slice := pdts[i-329 : i+1]
 		config.DB.Save(&slice)
@@ -152,7 +193,7 @@ for _, pdt := range pdts {
 	}
 }
 
-
+*//*
 somaPordeducaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 
 for _, pdt := range pdts {
@@ -178,18 +219,28 @@ for _, iadvh := range iadvhs {
   //  soma1=somaPordeducaoUnidadeFuncaoPdt[iadvh.Salario_maternidade][iadvh.Unidade][iadvh.Funcao]
 }
 
-
+*/
 
 
 for i,pdt:= range pdts {
-	
-	pdts[i].Deducao_inssfo =somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade][pdt.Funcao]
+	pdts[i].Rh =somaPorRH[pdt.Unidade][pdt.Funcao]
+
+	pdts[i].Adicional_noturnofo = somaPoradicionalnoturnoUnidadeFuncaoPdt[pdt.Periculosidade][pdt.Unidade][pdt.Funcao]
+	soma := somaPorauxilioalimentacaoUnidadeFuncaoPdt[pdt.Auxilio_alimentacao_retroativo][pdt.Unidade][pdt.Funcao]
+		pdts[i].Auxilio_alimentacaofo = soma
+	//pdts[i].Deducao_inssfo =somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade][pdt.Funcao]
 
 	if (i+1)%330 == 0 {
 	slice := pdts[i-329 : i+1]
 	config.DB.Save(&slice)
 	//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 }
+}
+
+if len(pdts)%330!= 0 {
+	slice := pdts[len(pdts)-(len(pdts)%330):]
+	config.DB.Save(&slice)
+	//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
 }
 
 somaPorDsrUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
@@ -222,7 +273,7 @@ for _, iadvh := range iadvhs {
 
 
 
-
+/*
 for i,pdt:= range pdts {
 	pdts[i].Dsrfo = 	somaPorDsrUnidadeFuncaoPdt[pdt.Aviso_previo_indenizado][pdt.Unidade][pdt.Funcao]
 
@@ -232,7 +283,7 @@ if (i+1)%330 == 0 {
 	config.DB.Save(&slice)
 }
 }
-
+*/
 somaPorgratificacaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 
 
@@ -265,19 +316,25 @@ somaPorgratificacaoUnidadeFuncaoPdt := make(map[float64]map[string]map[string]fl
 
 	
     for i,pdt:= range pdts{
-        
+		pdts[i].Deducao_inssfo =somaPordeducaoUnidadeFuncaoPdt[pdt.Salario_maternidade][pdt.Unidade][pdt.Funcao]
+		pdts[i].Dsrfo = 	somaPorDsrUnidadeFuncaoPdt[pdt.Aviso_previo_indenizado][pdt.Unidade][pdt.Funcao]
+
      pdts[i].Gratificacaofo =somaPorgratificacaoUnidadeFuncaoPdt[pdt.Gratificacao_funcao_instrumentacao_cirurgico][pdt.Unidade][pdt.Funcao]
-    	if (i+1)%3000 == 0 {
-		slice := pdts[i-2999 : i+1]
+    	if (i+1)%330 == 0 {
+		slice := pdts[i-229 : i+1]
 		config.DB.Save(&slice)
 		//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 	}
 }
+if len(pdts)%330!= 0 {
+	slice := pdts[len(pdts)-(len(pdts)%330):]
+	config.DB.Save(&slice)
+	//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
+}
 
-
-
+/*
 	
-	
+*/	
 somaPorInsalubridadeUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 		
 		
@@ -306,7 +363,7 @@ for _, iadvh := range iadvhs {
 }
 
 
-
+/*
 for i,pdt:= range pdts {
 	
 	pdts[i].Insalubridade =somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade][pdt.Funcao]
@@ -317,7 +374,7 @@ for i,pdt:= range pdts {
 	//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 }
 }
-
+*/
 somaPorpericulosidadeUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
 
 for _, pdt := range pdts {
@@ -344,7 +401,7 @@ for _, iadvh := range iadvhs {
 
 	somaPorpericulosidadeUnidadeFuncaoPdt[iadvh.Periculosidade][iadvh.Unidade][iadvh.Funcao] += iadvh.Periculosidade
 }
-
+/*
 for i, pdt := range pdts {
 	pdts[i].Periculosidadefo = somaPorpericulosidadeUnidadeFuncaoPdt[pdt.Periculosidade][pdt.Unidade][pdt.Funcao]
 	
@@ -354,7 +411,7 @@ for i, pdt := range pdts {
 	//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 }
 }
-
+*/
 
 // Certifique-se de realizar uma última atualização em lote se necessário
 
@@ -399,6 +456,10 @@ for i, pdt := range pdts {
 		
        
 	for i, pdt := range pdts {
+		pdts[i].Insalubridade =somaPorInsalubridadeUnidadeFuncaoPdt[pdt.Insalubridade_40][pdt.Unidade][pdt.Funcao]
+
+		pdts[i].Periculosidadefo = somaPorpericulosidadeUnidadeFuncaoPdt[pdt.Periculosidade][pdt.Unidade][pdt.Funcao]
+
 		pdts[i].Salariobasefo = somaPorsalariobaseUnidadeFuncaoPdt[pdt.Saldo_salario][pdt.Unidade][pdt.Funcao]
 
 		// Atualiza a cada 300 linhas
@@ -498,9 +559,13 @@ for i, pdt := range pdts {
 			
 			
 			
-	
+/*	
 			
             for i,pdt:= range pdts {
+
+
+				pdts[i].Encargosfo =somaPorencargosUnidadeFuncaoPdt[pdt.Aviso_previo_indenizado][pdt.Unidade][pdt.Funcao]
+
                 
                 pdts[i].Total_salario_folha =somaPortotalsalariofolhaUnidadeFuncaoPdt[pdt.Total_salario_folha][pdt.Unidade][pdt.Funcao]
 				if (i+1)%330 == 0 {
@@ -515,7 +580,7 @@ for i, pdt := range pdts {
 			config.DB.Save(&slice)
 			//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
 		}
-
+*/
 
 
 	somaPortotalsalariomensalfolhaUnidadeFuncaoPdt := make(map[float64]map[string]map[string]float64)
@@ -602,6 +667,9 @@ somaPortotalsalarioanualfolhaUnidadeFuncaoPdt[iadvh.Total_anual_folha][iadvh.Uni
 
 
 for i,pdt:= range pdts{
+
+	pdts[i].Total_mensal_folha =somaPortotalsalariomensalfolhaUnidadeFuncaoPdt[pdt.Total_mensal_folha][pdt.Unidade][pdt.Funcao]
+
 pdts[i].Total_anual_folha=somaPortotalsalarioanualfolhaUnidadeFuncaoPdt[pdt.Total_anual_folha][pdt.Unidade][pdt.Funcao]
 if (i+1)%330 == 0 {
 	slice := pdts[i-229 : i+1]
@@ -609,13 +677,14 @@ if (i+1)%330 == 0 {
 	//fmt.Printf("Atualizadas %d linhas.\n", i+1)
 
 }
+}
 if len(pdts)%330!= 0 {
 	slice := pdts[len(pdts)-(len(pdts)%330):]
 	config.DB.Save(&slice)
 	//fmt.Printf("Atualizadas %d linhas.\n", len(pdts)%300)
 }
 
-}
+
 	
     
 	//
